@@ -1,7 +1,7 @@
 import { useState } from "react";
 import HealthRiskCalculator from "../components/HealthRiskCalculator";
 
-const API_KEY = "YOUR_AQICN_API_KEY"; // Replace with your AQICN API key
+const API_KEY = "9bd1c327b0c64ebb1e7e8a3f3bc8e9f13c315c09"; // Replace with your AQICN API key
 
 // Function to fetch area suggestions
 const fetchAreaSuggestions = async (query: string): Promise<string[]> => {
@@ -42,7 +42,7 @@ export default function HealthAssessment() {
       setSuggestions(results);
 
       if (results.length === 0) {
-        setError("⚠️ No data available for this area.");
+        setError(" No data available for this area.");
       }
     } else {
       setSuggestions([]);
@@ -53,12 +53,12 @@ export default function HealthAssessment() {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-center text-black mb-6">
-        🏥 Health Risk Calculator
+        Health Risk Calculator
       </h2>
 
       {/* Area Input with Auto-suggestions */}
       <div className="mb-6 relative">
-        <label className="block text-black font-semibold text-lg mb-2">📍 Enter Your Area:</label>
+        <label className="block text-black font-semibold text-lg mb-2"> Enter Your Area:</label>
         <input
           type="text"
           className="w-full p-3 border rounded-lg bg-gray-100 text-black font-semibold"
@@ -88,7 +88,7 @@ export default function HealthAssessment() {
 
       {/* Family Members */}
       <div className="mb-4">
-        <label className="block text-black font-semibold mb-2">👨‍👩‍👧‍👦 Number of Family Members:</label>
+        <label className="block text-black font-semibold mb-2"> Number of Family Members:</label>
         <input
           type="number"
           className="w-full p-3 border rounded-lg bg-gray-100 text-black font-semibold"
@@ -106,7 +106,7 @@ export default function HealthAssessment() {
       {ages.map((age, index) => (
         <div className="mb-4" key={index}>
           <label className="block text-black font-semibold mb-2">
-            🎂 Age of Family Member {index + 1}:
+             Age of Family Member {index + 1}:
           </label>
           <input
             type="number"
@@ -123,7 +123,7 @@ export default function HealthAssessment() {
 
       {/* Hours Outside */}
       <div className="mb-4">
-        <label className="block text-black font-semibold mb-2">⏳ Average Daily Hours Spent Outside by a  Family Member:</label>
+        <label className="block text-black font-semibold mb-2"> Average Daily Hours Spent Outside by a  Family Member:</label>
         <input
           type="number"
           className="w-full p-3 border rounded-lg bg-gray-100 text-black font-semibold"
@@ -134,7 +134,7 @@ export default function HealthAssessment() {
 
       {/* Health Condition */}
       <div className="mb-4">
-        <label className="block text-black font-semibold mb-2">⚕️ Select Health Condition:</label>
+        <label className="block text-black font-semibold mb-2"> Select Health Condition:</label>
         <select
           className="w-full p-3 border rounded-lg bg-gray-100 text-black font-semibold"
           value={healthCondition}
@@ -147,19 +147,19 @@ export default function HealthAssessment() {
         </select>
       </div>
 
-      {/* Submit Button */}
       <button
-        onClick={() => {
-          if (!area || error) {
-            alert("Please select a valid area before proceeding.");
-          } else {
-            setCalculate(true);
-          }
-        }}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition"
-      >
-        Calculate Health Cost
-      </button>
+  onClick={() => {
+    if (!area || error) {
+      alert("Please select a valid area before proceeding.");
+    } else {
+      setCalculate(false); // Reset before updating
+      setTimeout(() => setCalculate(true), 0); // Ensures re-rendering with new values
+    }
+  }}
+  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition"
+>
+  Calculate Health Cost
+</button>
 
       {/* Display Health Risk Calculator */}
       {calculate && (

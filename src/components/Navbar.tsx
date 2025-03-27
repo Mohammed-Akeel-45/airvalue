@@ -7,9 +7,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex">
-            <Link to="/about" className="flex items-center">
-              <HomeIcon className="h-6 w-6 text-blue-600" />
-              <span className="ml-2 font-semibold text-xl text-gray-700">About</span>
+            <Link to="/" className="flex items-center">
+              <Gauge className="h-6 w-6 text-blue-600" />
+              <span className="ml-2 font-semibold text-xl text-gray-700">AQI Valuator</span>
             </Link>
           </div>
           
@@ -22,9 +22,9 @@ export default function Navbar() {
               <Stethoscope className="h-5 w-5" />
               <span className="ml-1">Health Risk</span>
             </Link>
-            <Link to="/" className="flex items-center text-gray-700 hover:text-blue-600 transition-colors">
-              <Gauge className="h-5 w-5" />
-              <span className="ml-1">AQI Valuator</span>
+            <Link to="/about" className="flex items-center text-gray-700 hover:text-blue-600 transition-colors">
+              <HomeIcon className="h-5 w-5" />
+              <span className="ml-1">About</span>
             </Link>
             <Link to="/news" className="flex items-center text-gray-700 hover:text-blue-600">
               <Newspaper className="h-5 w-5" />

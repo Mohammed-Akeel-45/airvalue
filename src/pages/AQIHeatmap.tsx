@@ -42,7 +42,7 @@ export default function AQIHeatmap() {
         const data = await response.json();
 
         if (data.status !== "ok" || !data.data.length) {
-          setError(`❌ No AQI data available for ${selectedCity}.`);
+          setError(` No AQI data available for ${selectedCity}.`);
           setLoading(false);
           return;
         }
@@ -58,7 +58,7 @@ export default function AQIHeatmap() {
 
         setStations(cityStations);
       } catch (err) {
-        setError("❌ Failed to fetch AQI data. Try again.");
+        setError(" Failed to fetch AQI data. Try again.");
       }
 
       setLoading(false);
@@ -70,13 +70,13 @@ export default function AQIHeatmap() {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">
-        🌍 City AQI Heatmap (Stations)
+         City AQI Heatmap (Stations)
       </h2>
 
       {/* City Selector */}
       <div className="mb-6">
         <label className="block text-gray-700 font-semibold text-lg mb-2">
-          🏙️ Select a City:
+           Select a City:
         </label>
         <select
           className="w-full p-3 border rounded-lg bg-gray-50 text-lg font-semibold shadow-sm"
@@ -105,7 +105,7 @@ export default function AQIHeatmap() {
            </ul>
          </div>
          <div className="w-3/4">
-           {loading && <p className="text-blue-600 text-center">🔄 Loading AQI data...</p>}
+           {loading && <p className="text-blue-600 text-center"> Loading AQI data...</p>}
            {error && <p className="text-red-600 text-center">{error}</p>}
            {!loading && !error && <AQIMap properties={stations} />}
          </div>

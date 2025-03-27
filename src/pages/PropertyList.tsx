@@ -13,7 +13,7 @@ const fetchAQIStations = async (city: string) => {
   const data = await response.json();
 
   if (data.status !== "ok") {
-    console.error("❌ Failed to fetch AQI stations:", data);
+    console.error(" Failed to fetch AQI stations:", data);
     return [];
   }
 
@@ -35,7 +35,7 @@ const fetchAQIData = async (latitude: number, longitude: number) => {
     console.error("Failed to fetch AQI data:", data);
     return null;
   }
-  const aqiValues = data.data.forecast?.daily?.pm25?.slice(0, 7).map((day: any) => day.avg) || [];
+  const aqiValues = data.data.forecast?.daily?.pm25?.slice(0, 30).map((day: any) => day.avg) || [];
   if (aqiValues.length === 0) return null;
   
   const avgAQI = Math.round(aqiValues.reduce((sum: any, val: any)=>sum+val, 0)/aqiValues.length);
@@ -130,11 +130,11 @@ export default function PropertyList() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">🏠 Property Value Adjuster</h2>
+      <h2 className="text-3xl font-bold text-center text-gray-900 mb-6"> Property Value Adjuster</h2>
 
       {/* Select City */}
       <div className="mb-6">
-        <label className="block text-gray-700 font-semibold text-lg mb-2">🏙️ Select a City:</label>
+        <label className="block text-gray-700 font-semibold text-lg mb-2"> Select a City:</label>
         <select
           className="w-full p-3 border rounded-lg bg-gray-50 text-lg font-semibold shadow-sm"
           value={selectedCity}
@@ -154,7 +154,7 @@ export default function PropertyList() {
 
       {/* Select Station */}
       <div className="mb-6">
-        <label className="block text-gray-700 font-semibold text-lg mb-2">📍 Select an AQI Station:</label>
+        <label className="block text-gray-700 font-semibold text-lg mb-2"> Select an AQI Station:</label>
         <select
           className="w-full p-3 border rounded-lg bg-gray-50 text-lg font-semibold shadow-sm"
           value={selectedStation?.id || ""}
@@ -175,7 +175,7 @@ export default function PropertyList() {
 
       {/* Property Inputs */}
       <div className="mb-6">
-        <label className="block text-gray-700 font-semibold text-lg mb-2">🏡 Enter Property Price:</label>
+        <label className="block text-gray-700 font-semibold text-lg mb-2"> Enter Property Price:</label>
         <input
           type="number"
           className="w-full p-3 border rounded-lg bg-gray-50 text-lg font-semibold shadow-sm"
@@ -188,13 +188,13 @@ export default function PropertyList() {
       {/* AQI Info & Adjusted Price */}
       {aqiData && (
         <div className="p-4 rounded-lg shadow-lg bg-gray-100">
-          <h3 className="text-xl font-bold">🌫️ AQI at {selectedStation.name}: {aqiData.value}</h3>
+          <h3 className="text-xl font-bold"> AQI at {selectedStation.name}: {aqiData.value}</h3>
           <p className="text-md text-gray-700" style={{ color: aqiData.color }}>{aqiData.category}</p>
           <p className="text-sm text-gray-600">{aqiData.healthImplications}</p>
         </div>
       )}
 
-      <h3 className="mt-6 text-xl font-bold text-gray-900">💰 Adjusted Property Price: ₹{calculateAdjustedPrice().toLocaleString()}</h3>
+      <h3 className="mt-6 text-xl font-bold text-gray-900"> Adjusted Property Price: ₹{calculateAdjustedPrice().toLocaleString()}</h3>
     </div>
   );
 }

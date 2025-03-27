@@ -1,12 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Leaf, Shield, Zap } from 'lucide-react';
-import Navbar from './components/Navbar';
+import { 
+  Home, 
+  MapPin, 
+  HeartPulse, 
+  Info, 
+  Menu, 
+  Newspaper
+} from 'lucide-react';
+import { useState } from 'react';
 import PropertyList from './pages/PropertyList';
 import AQIHeatmap from './pages/AQIHeatmap';
 import HealthAssessment from './pages/HealthAssessment';
-import News from "./pages/News"; // ✅ Import News page
+import Aware from "./pages/Aware"; // ✅ Import News page
 import About from './pages/About';
 
 const queryClient = new QueryClient({
@@ -18,62 +25,125 @@ const queryClient = new QueryClient({
   },
 });
 
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-teal-50 text-gray-900 antialiased">
-          <Navbar />
-          
-          <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 relative">
-            <div className="bg-white/90 backdrop-blur-xl shadow-2xl rounded-3xl border border-cyan-100 overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-cyan-500 to-teal-500"></div>
-              <div className="p-6 sm:p-10">
-                <Routes>
-                  <Route path="/" element={<PropertyList />} />
-                  <Route path="/map" element={<AQIHeatmap />} />
-                  <Route path="/health" element={<HealthAssessment />} />
-                  <Route path="/news" element={<News />} /> {/* ✅ Add News Route */}
-                  <Route path="/about" element={<About />} />
-                </Routes>
-              </div>
-            </div>
-          </main>
+function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-cyan-50 p-6 rounded-2xl flex items-center space-x-4 shadow-lg hover:shadow-xl transition-all">
-                <Leaf className="h-12 w-12 text-cyan-600" />
-                <div>
-                  <h3 className="text-lg font-bold text-gray-800">Environmental Insights</h3>
-                  <p className="text-sm text-gray-600">Real-time air quality tracking</p>
-                </div>
-              </div>
-              <div className="bg-teal-50 p-6 rounded-2xl flex items-center space-x-4 shadow-lg hover:shadow-xl transition-all">
-                <Shield className="h-12 w-12 text-teal-600" />
-                <div>
-                  <h3 className="text-lg font-bold text-gray-800">Health Protection</h3>
-                  <p className="text-sm text-gray-600">Personalized risk assessment</p>
-                </div>
-              </div>
-              <div className="bg-blue-50 p-6 rounded-2xl flex items-center space-x-4 shadow-lg hover:shadow-xl transition-all">
-                <Zap className="h-12 w-12 text-blue-600" />
-                <div>
-                  <h3 className="text-lg font-bold text-gray-800">Smart Analytics</h3>
-                  <p className="text-sm text-gray-600">Advanced property valuation</p>
-                </div>
+  const NavItems = [
+    { 
+      path: "/", 
+      icon: <Home className="w-5 h-5 mr-2" />, 
+      label: "Properties" 
+    },
+    { 
+      path: "/map", 
+      icon: <MapPin className="w-5 h-5 mr-2" />, 
+      label: "AQI Heatmap" 
+    },
+    { 
+      path: "/health", 
+      icon: <HeartPulse className="w-5 h-5 mr-2" />, 
+      label: "Health Risk" 
+    },
+    { 
+      path: "/aware", 
+      icon: <Newspaper className="w-5 h-5 mr-2" />, 
+      label: "Aware" 
+    },
+    { 
+      path: "/about", 
+      icon: <Info className="w-5 h-5 mr-2" />, 
+      label: "About" 
+    }
+  ];
+
+  return (
+    <nav className="bg-gradient-to-r from-blue-600 to-purple-700 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <h1 className="text-white text-2xl font-bold tracking-wider">
+                AIR VALUE
+              </h1>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:block ml-10">
+              <div className="flex items-baseline space-x-4">
+                {NavItems.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) => `
+                      text-white px-3 py-2 rounded-md text-sm font-medium 
+                      transition-all duration-300 ease-in-out
+                      flex items-center
+                      hover:bg-white/20 hover:scale-105
+                      ${isActive ? 'bg-white/30 ring-2 ring-white/50' : ''}
+                    `}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </NavLink>
+                ))}
               </div>
             </div>
           </div>
 
-          <footer className="bg-gradient-to-r from-cyan-600 to-teal-600 text-white py-8">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-2xl font-bold mb-4">Property Health Intelligence</h2>
-              <p className="text-sm opacity-80 max-w-2xl mx-auto">
-                Empowering informed decisions through comprehensive environmental and health data analysis
-              </p>
+          {/* Mobile Menu Button */}
+          <div className="-mr-2 flex md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="bg-white/20 inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white"
+            >
+              <Menu />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {NavItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) => `
+                    text-white block px-3 py-2 rounded-md text-base font-medium
+                    hover:bg-white/20
+                    ${isActive ? 'bg-white/30' : ''}
+                  `}
+                >
+                  {item.icon}
+                  {item.label}
+                </NavLink>
+              ))}
             </div>
-          </footer>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100">
+          <Navbar />
+          <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+              <Routes>
+                <Route path="/" element={<PropertyList />} />
+                <Route path="/map" element={<AQIHeatmap />} />
+                <Route path="/health" element={<HealthAssessment />} />
+                <Route path="/aware" element={<Aware />} />
+                <Route path="/about" element={<About />} />
+              </Routes>
+            </div>
+          </main>
         </div>
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />
